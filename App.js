@@ -1,10 +1,20 @@
 import React from 'react';
 import { Alert, Button, FlatList, StyleSheet, Text, View } from 'react-native';
+import axios from "axios";
 
 export default class App extends React.Component {
   handler()
   {
-    console.log("Okay");
+    var requestedData;
+    axios.get(`https://jsonplaceholder.typicode.com/users`)
+      .then(res => {
+        console.log("data: " + res.data[0].name);
+        requestedData = res.data;
+        for (var i = 0; i < 10; i++) {
+          console.log(requestedData[i].name);
+        }
+      });
+
     Alert.alert(
       'Alert Title',
       'My Alert Msg: Button Clicked',
