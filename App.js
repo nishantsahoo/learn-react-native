@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Button, StyleSheet, Text, View } from 'react-native';
+import { Alert, Button, FlatList, StyleSheet, Text, View } from 'react-native';
 
 export default class App extends React.Component {
   handler()
@@ -22,13 +22,17 @@ export default class App extends React.Component {
         <View style={styles.container}>
           <Text>Open up App.js to start working on your app!</Text>
           <Text>Changes you make will automatically reload.</Text>
-          <Text>Really?</Text>
-          <Text>Cool</Text>
           <Button
             onPress={this.handler}
             title="Learn More"
             color="#841584"
             accessibilityLabel="Learn more about this purple button"
+          />
+          <FlatList
+            data={[{key: 'a'}, {key: 'b'}]}
+            renderItem={({item}) =>
+              <Text>{item.key}</Text>
+            }
           />
         </View>
     );
@@ -40,6 +44,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
 });
