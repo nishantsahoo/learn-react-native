@@ -16,6 +16,7 @@ export default class App extends React.Component {
         for (var i = 0; i < 10; i++) {
           console.log(requestedData[i].name);
         }
+        this.setState({data: requestedData});
       });
 
     Alert.alert(
@@ -31,13 +32,13 @@ export default class App extends React.Component {
   } // end of the function handler
 
   render() {
-    console.log(this.state);
+    console.log("State data: " + this.state.data);
     return (
         <View style={styles.container}>
           <Text>Open up App.js to start working on your app!</Text>
           <Text>Changes you make will automatically reload.</Text>
           <Button
-            onPress={this.handler}
+            onPress={this.handler.bind(this)}
             title="Learn More"
             color="#841584"
             accessibilityLabel="Learn more about this purple button"
