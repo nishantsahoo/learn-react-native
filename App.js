@@ -3,12 +3,15 @@ import { Alert, Button, FlatList, StyleSheet, Text, View } from 'react-native';
 import axios from "axios";
 
 export default class App extends React.Component {
+  state = {data: 'Data'}
+
   handler()
   {
+    console.log("This is this: " + this);
     var requestedData;
     axios.get(`https://jsonplaceholder.typicode.com/users`)
       .then(res => {
-        console.log("data: " + res.data[0].name);
+        console.log("Data: ");
         requestedData = res.data;
         for (var i = 0; i < 10; i++) {
           console.log(requestedData[i].name);
@@ -28,6 +31,7 @@ export default class App extends React.Component {
   } // end of the function handler
 
   render() {
+    console.log(this.state);
     return (
         <View style={styles.container}>
           <Text>Open up App.js to start working on your app!</Text>
