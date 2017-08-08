@@ -32,20 +32,20 @@ export default class App extends React.Component {
     currentComponent = this.state.data;
     return (
         <View style={styles.container}>
-          <Text>Open up App.js to start working on your app!</Text>
-          <Text>Changes you make will automatically reload.</Text>
-          <Button
-            onPress={this.handler.bind(this)}
-            title="Learn More"
-            color="#841584"
-            accessibilityLabel="Learn more about this purple button"
-          />
-          <FlatList
-            data={currentComponent}
-            renderItem={({item}) =>
-              <Text>{item.name}</Text>
-            }
-          />
+        <Text>Open up App.js to start working on your app!</Text>
+        <Text>Changes you make will automatically reload.</Text>
+        <Button
+          onPress={this.handler.bind(this)}
+          title="Learn More"
+          color="#841584"
+          accessibilityLabel="Learn more about this purple button"
+        />
+        <FlatList
+          data={currentComponent}
+          renderItem={({item}) =>
+            <Text>{item.name}</Text>
+          }
+        />
       </View>
     );
   }
@@ -56,6 +56,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
 });
