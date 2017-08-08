@@ -1,24 +1,25 @@
 import React from 'react';
-import { Alert, Button, FlatList, StyleSheet, Text, View } from 'react-native';
+import { Alert, Button, FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
 import axios from "axios";
 
 export default class App extends React.Component {
-  state = {data: 'Data'}
+  state = {data: 'Data', cc: <Text>Yo</Text>};
+
+  constructor()
+  {
+    super();
+    axios.get(`https://jsonplaceholder.typicode.com/users`)
+      .then(res => {
+        this.setState({data: res.data});
+      });
+  }
 
   handler()
   {
-    console.log("This is this: " + this);
-    var requestedData;
     axios.get(`https://jsonplaceholder.typicode.com/users`)
       .then(res => {
-        console.log("Data: ");
-        requestedData = res.data;
-        for (var i = 0; i < 10; i++) {
-          console.log(requestedData[i].name);
-        }
-        this.setState({data: requestedData});
+        this.setState({data: res.data});
       });
-
     Alert.alert(
       'Alert Title',
       'My Alert Msg: Button Clicked',
@@ -32,7 +33,8 @@ export default class App extends React.Component {
   } // end of the function handler
 
   render() {
-    console.log("State data: " + this.state.data);
+    currentComponent = this.state.data;
+    console.log(currentComponent[0].name + " " + currentComponent[0].id);
     return (
         <View style={styles.container}>
           <Text>Open up App.js to start working on your app!</Text>
@@ -49,7 +51,7 @@ export default class App extends React.Component {
               <Text>{item.key}</Text>
             }
           />
-        </View>
+      </View>
     );
   }
 }
