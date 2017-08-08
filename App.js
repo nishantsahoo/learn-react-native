@@ -16,10 +16,6 @@ export default class App extends React.Component {
 
   handler()
   {
-    axios.get(`https://jsonplaceholder.typicode.com/users`)
-      .then(res => {
-        this.setState({data: res.data});
-      });
     Alert.alert(
       'Alert Title',
       'My Alert Msg: Button Clicked',
@@ -34,7 +30,6 @@ export default class App extends React.Component {
 
   render() {
     currentComponent = this.state.data;
-    console.log(currentComponent[0].name + " " + currentComponent[0].id);
     return (
         <View style={styles.container}>
           <Text>Open up App.js to start working on your app!</Text>
@@ -46,9 +41,9 @@ export default class App extends React.Component {
             accessibilityLabel="Learn more about this purple button"
           />
           <FlatList
-            data={[{key: 'a'}, {key: 'b'}]}
+            data={currentComponent}
             renderItem={({item}) =>
-              <Text>{item.key}</Text>
+              <Text>{item.name}</Text>
             }
           />
       </View>
