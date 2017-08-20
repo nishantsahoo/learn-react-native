@@ -54,6 +54,7 @@ export default class App extends React.Component {
             renderRow={(rowData) =>
               <Text>{rowData}</Text>
             }
+            renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator}></View>}
           />
       </View>
     );
@@ -66,5 +67,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  separator: {
+    flex: 1,
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: '#8E8E8E',
   },
 });
