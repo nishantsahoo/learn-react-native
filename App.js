@@ -86,14 +86,14 @@ class MainActivity extends React.Component {
     currentComponent = this.state.data;
     return (
         <View style={styles.container}>
-          <Text>Welcome to SLCM App</Text>
+          <Text style={{fontSize: 25}}>Welcome to SLCM App</Text>
           <TextInput
-            style={{height: 50, width: 250}}
+            style={{height: 50, width: 250, fontSize: 15, textAlign: 'center'}}
             placeholder="Username"
             onChangeText={(text) => this.setState({username: text})}
           />
           <TextInput
-            style={{height: 50, width: 250}}
+            style={{height: 50, width: 250, fontSize: 15, textAlign: 'center'}}
             secureTextEntry={true}
             placeholder="Password"
             onChangeText={(text) => this.setState({password: text})}
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   separator: {
-    flex: 1,
+    flex: 10,
     height: StyleSheet.hairlineWidth,
     backgroundColor: '#8E8E8E',
   },
