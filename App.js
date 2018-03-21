@@ -3,15 +3,46 @@ import { Alert, Button, FlatList, ListView, ScrollView, StyleSheet, Text, View }
 import axios from "axios";
 
 export default class App extends React.Component {
-  state = {data: 'Data', cc: <Text>Yo</Text>};
+  state = {data: 'Data', cc: <Text>Yo</Text>, username: '', password: ''};
 
   constructor()
   {
     super();
-    axios.get(`https://jsonplaceholder.typicode.com/users`)
-      .then(res => {
-        this.setState({data: res.data});
-      });
+    var details = {
+    'username': '150953244',
+    'password': 'ccea150953245',
+    };
+
+    var formBody = [];
+    for (var property in details) {
+      var encodedKey = encodeURIComponent(property);
+      var encodedValue = encodeURIComponent(details[property]);
+      formBody.push(encodedKey + "=" + encodedValue);
+    }
+    formBody = formBody.join("&");
+
+    fetch('https://radiant-gorge-40900.herokuapp.com/', {
+	  	method: 'POST',
+	  	headers: {
+	    Accept: 'application/json',
+	    	'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+	  	},
+	  	body: formBody
+	  }).then((response) => response.json())
+    	.then((responseJson) => {
+      		console.log(responseJson)
+          this.setState({data: responseJson})   
+    	})
+    .catch((error) => {
+      	//console.error(error);
+        console.log("Error aaya");
+    });
+
+    console.log("After post");
+    // axios.get(`https://jsonplaceholder.typicode.com/users`)
+    //   .then(res => {
+    //     this.setState({data: res.data});
+    //   });
       const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
       this.state = {
         dataSource: ds.cloneWithRows(['row 1', 'row 2','okay','cool']),
@@ -42,6 +73,11 @@ export default class App extends React.Component {
             title="Learn More"
             color="#841584"
             accessibilityLabel="Learn more about this purple button"
+          />
+          <TextInput
+            style={{height: 40}}
+            placeholder="Username"
+            onChangeText={(text) => this.setState({text})}
           />
           <FlatList
             data={currentComponent}
