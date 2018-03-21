@@ -2,6 +2,11 @@ import React, { Component } from 'react';
 import { AppRegistry, Alert, Button, FlatList, ListView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import axios from "axios";
 import { StackNavigator } from 'react-navigation';
+import {
+  Card,
+  CardTitle,
+  CardContent
+} from 'react-native-card-view';
 
 class SecondActivity extends Component
 {
@@ -17,13 +22,18 @@ class SecondActivity extends Component
           {
             attendance.map(function(item){
               return (
-                <View>
-                  <Text>Subject Code: {item.subject_code}</Text>
-                  <Text>Total: {item.total}</Text>
-                  <Text>Present: {item.present}</Text>
-                  <Text>Absent: {item.absent}</Text>
-                  <Text>Percentage: {item.percentage}</Text>
-                </View>
+                <Card>
+                  <CardTitle>
+                    <Text>Name: {item.name}</Text>
+                  </CardTitle>
+                  <CardContent>
+                    <Text>Subject Code: {item.subject_code}</Text>
+                    <Text>Total: {item.total}</Text>
+                    <Text>Present: {item.present}</Text>
+                    <Text>Absent: {item.absent}</Text>
+                    <Text>Percentage: {item.percentage}</Text>
+                  </CardContent>
+                </Card>
               )
             })
           }
