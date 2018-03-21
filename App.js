@@ -14,7 +14,13 @@ class SecondActivity extends Component
     attendance = global.globalData;
     return(
         <ScrollView>
-          <Text>{JSON.stringify(attendance, null, 4)}</Text>
+          {
+            attendance.map(function(item){
+              return (
+                <Text>{item.name} {item.percentage}</Text>
+              )
+            })
+          }
         </ScrollView>
     );
   }
@@ -71,15 +77,15 @@ class MainActivity extends React.Component {
 	  }).then((response) => response.json())
     	.then((responseJson) => {
         Alert.alert('Login successful!');
-        console.log(responseJson);
+        // console.log(responseJson);
         global.globalData = responseJson;
+        responseJson.forEach(element => {
+          console.log(element.name, element.percentage);
+        });
         this.FunctionToOpenSecondActivity();
     	})
     .catch((error) => {
-        //console.error(error);
-        Alert.alert('Login failed.');
-
-        // console.log("Error aaya");
+        Alert.alert('Wrong username or password');
     });
   } // end of the function login
 
