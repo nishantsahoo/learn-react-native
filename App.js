@@ -1,25 +1,64 @@
-import React from 'react';
-import { Alert, Button, FlatList, ListView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import { AppRegistry, Alert, Button, FlatList, ListView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import axios from "axios";
+import { StackNavigator } from 'react-navigation';
 
-export default class App extends React.Component {
+class SecondActivity extends Component
+{
+  static navigationOptions =
+  {
+    title: 'Attendance details',
+  };
+  render()
+  {
+    return(
+        <ScrollView>          
+          <Text>{JSON.stringify(global.globalData, null, 4)}</Text>
+        </ScrollView>
+    );
+  }
+}
+
+class MainActivity extends React.Component {
+
+  static navigationOptions =
+  {
+    title: 'SLCM',
+  };
+  
+  FunctionToOpenSecondActivity = () =>
+  {
+    this.props.navigation.navigate('Second');
+  }
+
   state = {data: 'Data', cc: <Text>Yo</Text>, username: '', password: ''};
 
   constructor()
   {
-    super();
-    var details = {
-    'username': '150953244',
-    'password': 'ccea150953245',
-    };
+      super();
+      global.globalData = {};
+      console.log("App initialized.");
+      const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+      this.state = {
+        dataSource: ds.cloneWithRows(['row 1', 'row 2','okay','cool']),
+      };
+  }
 
+  login()
+  {
+    Alert.alert('Please wait while we make a request to SLCM.')
+    var details = {
+      'username': this.state.username,
+      'password': this.state.password,
+      };
+  
     var formBody = [];
     for (var property in details) {
-      var encodedKey = encodeURIComponent(property);
-      var encodedValue = encodeURIComponent(details[property]);
-      formBody.push(encodedKey + "=" + encodedValue);
+        var encodedKey = encodeURIComponent(property);
+        var encodedValue = encodeURIComponent(details[property]);
+        formBody.push(encodedKey + "=" + encodedValue);
     }
-    formBody = formBody.join("&");
+    formBody = formBody.join("&");  
 
     fetch('https://radiant-gorge-40900.herokuapp.com/', {
 	  	method: 'POST',
@@ -30,72 +69,51 @@ export default class App extends React.Component {
 	  	body: formBody
 	  }).then((response) => response.json())
     	.then((responseJson) => {
-      		console.log(responseJson)
-          this.setState({data: responseJson})   
+        Alert.alert('Login successful!');
+        console.log(responseJson);
+        global.globalData = responseJson;
+        this.FunctionToOpenSecondActivity();
     	})
     .catch((error) => {
-      	//console.error(error);
-        console.log("Error aaya");
+        //console.error(error);
+        Alert.alert('Login failed.');
+
+        // console.log("Error aaya");
     });
-
-    console.log("After post");
-    // axios.get(`https://jsonplaceholder.typicode.com/users`)
-    //   .then(res => {
-    //     this.setState({data: res.data});
-    //   });
-      const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-      this.state = {
-        dataSource: ds.cloneWithRows(['row 1', 'row 2','okay','cool']),
-      };
-  }
-
-  handler()
-  {
-    Alert.alert(
-      'Alert Title',
-      'My Alert Msg: Button Clicked',
-      [
-        {text: 'Ask me later', onPress: () => console.log('Ask me later pressed')},
-        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-        {text: 'OK', onPress: () => console.log('OK Pressed')},
-      ],
-      { cancelable: false }
-    )
-  } // end of the function handler
+  } // end of the function login
 
   render() {
     currentComponent = this.state.data;
     return (
         <View style={styles.container}>
-          <Text>You can type your text here</Text>
-          <Button
-            onPress={this.handler.bind(this)}
-            title="Learn More"
-            color="#841584"
-            accessibilityLabel="Learn more about this purple button"
+          <Text>Welcome to SLCM App</Text>
+          <TextInput
+            style={{height: 50, width: 250}}
+            placeholder="Username"
+            onChangeText={(text) => this.setState({username: text})}
           />
           <TextInput
-            style={{height: 40}}
-            placeholder="Username"
-            onChangeText={(text) => this.setState({text})}
+            style={{height: 50, width: 250}}
+            secureTextEntry={true}
+            placeholder="Password"
+            onChangeText={(text) => this.setState({password: text})}
           />
-          <FlatList
-            data={currentComponent}
-            renderItem={({item}) =>
-              <Text>{item.name}</Text>
-            }
-          />
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={(rowData) =>
-              <Text>{rowData}</Text>
-            }
-            renderSeparator={(sectionId, rowId) => <View key={rowId} style={styles.separator}></View>}
+          <Button
+            onPress={this.login.bind(this)}
+            title="Login"
+            color="#841584"
           />
       </View>
     );
   }
 }
+
+export default Project = StackNavigator(
+  {
+  First: { screen: MainActivity },
+  
+  Second: { screen: SecondActivity }
+});  
 
 const styles = StyleSheet.create({
   container: {
