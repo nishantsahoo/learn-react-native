@@ -11,9 +11,10 @@ class SecondActivity extends Component
   };
   render()
   {
+    attendance = global.globalData;
     return(
-        <ScrollView>          
-          <Text>{JSON.stringify(global.globalData, null, 4)}</Text>
+        <ScrollView>
+          <Text>{JSON.stringify(attendance, null, 4)}</Text>
         </ScrollView>
     );
   }
