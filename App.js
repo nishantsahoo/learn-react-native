@@ -17,7 +17,13 @@ class SecondActivity extends Component
           {
             attendance.map(function(item){
               return (
-                <Text>{item.name} {item.percentage}</Text>
+                <View>
+                  <Text>Subject Code: {item.subject_code}</Text>
+                  <Text>Total: {item.total}</Text>
+                  <Text>Present: {item.present}</Text>
+                  <Text>Absent: {item.absent}</Text>
+                  <Text>Percentage: {item.percentage}</Text>
+                </View>
               )
             })
           }
