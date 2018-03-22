@@ -108,7 +108,6 @@ class AttendanceScreen extends Component
     attendance = global.globalData.attendance;
     return(
         <ScrollView>
-          <Text>Username: {global.globalData.username}</Text>
           {
             attendance.map(function(item){
               return (
