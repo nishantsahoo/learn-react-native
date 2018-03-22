@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Animated, AppRegistry, Alert, Button, FlatList, ListView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Animated, AppRegistry, Alert, Button, FlatList, ListView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import axios from "axios";
 import { StackNavigator } from 'react-navigation';
 import {
@@ -7,8 +7,10 @@ import {
   CardTitle,
   CardContent
 } from 'react-native-card-view';
+import { TabNavigator } from 'react-navigation';
 
-class MainActivity extends React.Component {
+
+class LoginActivity extends React.Component {
   
   state = {data: 'Data', cc: <Text>Yo</Text>, username: '', password: ''};
 
@@ -58,7 +60,8 @@ class MainActivity extends React.Component {
         body: formBody
       }).then((response) => response.json())
         .then((responseJson) => {
-          Alert.alert('Login successful!');
+          // SnackBar.show({title: 'Snackbar is working!', duration: Snackbar.LENGTH_SHORT});
+          Alert.alert('Welcome', responseJson.username);
           global.globalData = responseJson;
           this.FunctionToOpenSecondActivity();
         })
@@ -93,17 +96,19 @@ class MainActivity extends React.Component {
   }
 }
 
-class SecondActivity extends Component
+class AttendanceScreen extends Component 
 {
-  static navigationOptions =
-  {
-    title: 'Attendance details',
+  static navigationOptions = {
+    title: 'Attendance',
+    header: null
   };
-  render()
+
+  render() 
   {
-    attendance = global.globalData;
+    attendance = global.globalData.attendance;
     return(
         <ScrollView>
+          <Text>Username: {global.globalData.username}</Text>
           {
             attendance.map(function(item){
               return (
@@ -125,13 +130,49 @@ class SecondActivity extends Component
         </ScrollView>
     );
   }
+} // end of the AttendanceScreen
+
+class ProfileScreen extends Component 
+{
+  static navigationOptions = {
+    title: 'Profile',
+    header: null
+  };
+
+  render() 
+  {
+    username = global.globalData.username;
+    return(
+        <Text>Username: {username}</Text>
+    );
+  }
+} // end of the ProfileScreen
+
+
+class UserActivity extends Component
+{
+  static navigationOptions =
+  {
+    title: 'User Details',
+  };
+
+  render()
+  {
+    const MainNavigator = TabNavigator({
+      profile: { screen: ProfileScreen },
+      attendance: { screen: AttendanceScreen }
+    });
+
+    return (
+        <MainNavigator />
+    );
+  }
 }
 
 export default Project = StackNavigator(
   {
-  First: { screen: MainActivity },
-  
-  Second: { screen: SecondActivity }
+  First: { screen: LoginActivity },
+  Second: { screen: UserActivity }
 });
 
 const styles = StyleSheet.create({
