@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AppRegistry, Alert, Button, FlatList, ListView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Animated, AppRegistry, Alert, Button, FlatList, ListView, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import axios from "axios";
 import { StackNavigator } from 'react-navigation';
 import {
@@ -24,7 +24,7 @@ class SecondActivity extends Component
               return (
                 <Card>
                   <CardTitle>
-                    <Text>Name: {item.name}</Text>
+                    <Text>{item.name}</Text>
                   </CardTitle>
                   <CardContent>
                     <Text>Subject Code: {item.subject_code}</Text>
@@ -95,9 +95,6 @@ class MainActivity extends React.Component {
         Alert.alert('Login successful!');
         // console.log(responseJson);
         global.globalData = responseJson;
-        responseJson.forEach(element => {
-          console.log(element.name, element.percentage);
-        });
         this.FunctionToOpenSecondActivity();
     	})
     .catch((error) => {
