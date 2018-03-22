@@ -13,22 +13,18 @@ const loaderHandler = require('react-native-busy-indicator/LoaderHandler');
 
 class LoginActivity extends React.Component {
   
-  state = {data: 'Data', cc: <Text>Yo</Text>, username: '', password: ''};
+  state = {username: '', password: ''};
 
   constructor()
   {
       super();
       global.globalData = {};
       console.log("App initialized.");
-      const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-      this.state = {
-        dataSource: ds.cloneWithRows(['row 1', 'row 2','okay','cool']),
-      };
   }
 
   static navigationOptions =
   {
-    title: 'SLCM',
+    title: '   Student Life Cycle Management Portal',
   };
   
   FunctionToOpenSecondActivity = () =>
@@ -98,12 +94,12 @@ class LoginActivity extends React.Component {
         <View style={styles.container}>
           <Text style={{fontSize: 25}}>Welcome to SLCM App</Text>
           <TextInput
-            style={{height: 50, width: 250, fontSize: 15, textAlign: 'center'}}
+            style={{height: 50, width: 420, fontSize: 15, textAlign: 'center'}}
             placeholder="Username"
             onChangeText={(text) => this.setState({username: text})}
           />
           <TextInput
-            style={{height: 50, width: 250, fontSize: 15, textAlign: 'center'}}
+            style={{height: 50, width: 420, fontSize: 15, textAlign: 'center'}}
             secureTextEntry={true}
             placeholder="Password"
             onChangeText={(text) => this.setState({password: text})}
@@ -175,15 +171,15 @@ class UserActivity extends Component
 {
   static navigationOptions =
   {
-    title: 'User Details',
+    title: 'Academic Details',
   };
 
   render()
   {
     ToastAndroid.showWithGravity(
-      'Welcome ' + global.globalData.username,
+      'Welcome, ' + global.globalData.username + '!',
       ToastAndroid.SHORT,
-      ToastAndroid.TOP
+      ToastAndroid.CENTER
     );
     const MainNavigator = TabNavigator({
       profile: { screen: ProfileScreen },
