@@ -8,13 +8,6 @@ import {
   CardContent
 } from 'react-native-card-view';
 
-export default Project = StackNavigator(
-  {
-  First: { screen: MainActivity },
-  
-  Second: { screen: SecondActivity }
-});
-
 class MainActivity extends React.Component {
   
   state = {data: 'Data', cc: <Text>Yo</Text>, username: '', password: ''};
@@ -133,6 +126,13 @@ class SecondActivity extends Component
     );
   }
 }
+
+export default Project = StackNavigator(
+  {
+  First: { screen: MainActivity },
+  
+  Second: { screen: SecondActivity }
+});
 
 const styles = StyleSheet.create({
   container: {
