@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Animated, AppRegistry, Alert, Button, FlatList, ListView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Animated, AppRegistry, Alert, Button, FlatList, ListView, ScrollView, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View } from 'react-native';
 import axios from "axios";
 import { StackNavigator } from 'react-navigation';
 import {
@@ -8,7 +8,8 @@ import {
   CardContent
 } from 'react-native-card-view';
 import { TabNavigator } from 'react-navigation';
-
+const BusyIndicator = require('react-native-busy-indicator');
+const loaderHandler = require('react-native-busy-indicator/LoaderHandler');
 
 class LoginActivity extends React.Component {
   
@@ -37,7 +38,11 @@ class LoginActivity extends React.Component {
 
   login() // definition of the function login
   {
-      Alert.alert('Please wait while we make a request to SLCM.')
+    if(this.state.username && this.state.password)
+    {  
+      loaderHandler.showLoader("Authenticating");
+      // loading
+
       var details = {
         'username': this.state.username,
         'password': this.state.password,
@@ -49,8 +54,7 @@ class LoginActivity extends React.Component {
           var encodedValue = encodeURIComponent(details[property]);
           formBody.push(encodedKey + "=" + encodedValue);
       }
-      formBody = formBody.join("&");  
-
+      formBody = formBody.join("&");
       fetch('https://radiant-gorge-40900.herokuapp.com/', {
         method: 'POST',
         headers: {
@@ -60,14 +64,32 @@ class LoginActivity extends React.Component {
         body: formBody
       }).then((response) => response.json())
         .then((responseJson) => {
-          // SnackBar.show({title: 'Snackbar is working!', duration: Snackbar.LENGTH_SHORT});
-          Alert.alert('Welcome', responseJson.username);
           global.globalData = responseJson;
+          loaderHandler.hideLoader();
+          ToastAndroid.showWithGravity(
+            'Authentication Successful',
+            ToastAndroid.SHORT,
+            ToastAndroid.BOTTOM
+          );
           this.FunctionToOpenSecondActivity();
         })
       .catch((error) => {
-          Alert.alert('Wrong username or password');
+        loaderHandler.hideLoader();
+        ToastAndroid.showWithGravity(
+          'Authentication failed. Wrong username or password!',
+          ToastAndroid.LONG,
+          ToastAndroid.BOTTOM
+        );
       });
+    }
+    else
+    {
+      ToastAndroid.showWithGravity(
+        "Can't leave the input fields empty!",
+        ToastAndroid.SHORT,
+        ToastAndroid.BOTTOM
+      );
+    }
   } // end of the function login
 
   render() {
@@ -91,6 +113,7 @@ class LoginActivity extends React.Component {
             title="Login"
             color="#841584"
           />
+          <BusyIndicator />
       </View>
     );
   }
@@ -109,9 +132,9 @@ class AttendanceScreen extends Component
     return(
         <ScrollView>
           {
-            attendance.map(function(item){
+            attendance.map(function(item, id){
               return (
-                <Card>
+                <Card key={id}>
                   <CardTitle>
                     <Text>{item.name}</Text>
                   </CardTitle>
@@ -157,6 +180,11 @@ class UserActivity extends Component
 
   render()
   {
+    ToastAndroid.showWithGravity(
+      'Welcome ' + global.globalData.username,
+      ToastAndroid.SHORT,
+      ToastAndroid.TOP
+    );
     const MainNavigator = TabNavigator({
       profile: { screen: ProfileScreen },
       attendance: { screen: AttendanceScreen }
