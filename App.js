@@ -159,12 +159,28 @@ class ProfileScreen extends Component
 
   render() 
   {
-    username = global.globalData.username;
+    profile = global.globalData.profile;
     return(
-        <Text>Username: {username}</Text>
+        <Text>Username: {profile.username}</Text>
     );
   }
 } // end of the ProfileScreen
+
+
+class NotificationScreen extends Component 
+{
+  static navigationOptions = {
+    title: 'Notifications',
+    header: null
+  };
+
+  render() 
+  {
+    return(
+        <Text>Notifications... under progress.</Text>
+    );
+  }
+} // end of the NotificationScreen
 
 
 class UserActivity extends Component
@@ -172,22 +188,30 @@ class UserActivity extends Component
   static navigationOptions =
   {
     title: 'Academic Details',
+    // headerRight: <Button onPress={this.logout} title= "x" />
   };
+
+  logout() 
+  {
+    console.log("Logout button pressed");
+  }
 
   render()
   {
     ToastAndroid.showWithGravity(
-      'Welcome, ' + global.globalData.username + '!',
+      'Welcome, ' + global.globalData.profile.username + '!',
       ToastAndroid.SHORT,
       ToastAndroid.CENTER
     );
     const MainNavigator = TabNavigator({
       profile: { screen: ProfileScreen },
-      attendance: { screen: AttendanceScreen }
+      attendance: { screen: AttendanceScreen },
+      notification: {screen: NotificationScreen }
     });
 
     return (
         <MainNavigator />
+
     );
   }
 }
